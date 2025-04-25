@@ -1,7 +1,7 @@
 import styles from './JournalForm.module.scss';
 import Button from '../Button/Button';
 import { useState } from 'react';
-import cn from 'classnames';
+import cn from 'classname';
 
 function JournalForm({ onSubmit }) {
   const [formValidState, setFormValidState] = useState({
@@ -41,25 +41,45 @@ function JournalForm({ onSubmit }) {
 
   return (
     <form className={styles['journal-form']} onSubmit={addJournalItem}>
-      <input
-        type='text'
-        name='title'
-        className={cn(styles['input'], {
-          [styles['invalid']]: !formValidState.title,
-        })}
-      />
-      <input
-        type='date'
-        name='date'
-        className={`${styles['input']} input ${formValidState.date ? '' : styles['invalid']}`}
-      />
-      <input type='text' name='tag' />
+      <div>
+        <input
+          type='text'
+          name='title'
+          className={cn(styles['input-title'], {
+            [styles['invalid']]: !formValidState.title,
+          })}
+        />
+      </div>
+      <div className={styles['form-row']}>
+        <label for='date' className={styles['form-label']}>
+          <img src='/calendar.svg' alt='Иконка календаря' />
+          <span>Дата</span>
+        </label>
+        <input
+          type='date'
+          name='date'
+          id='date'
+          className={cn(styles['input'], {
+            [styles['invalid']]: !formValidState.date,
+          })}
+        />
+      </div>
+      <div className={styles['form-row']}>
+        <label for='tag' className={styles['form-label']}>
+          <img src='/tag.svg' alt='Иконка папки' />
+          <span>Дата</span>
+        </label>
+        <input type='text' name='tag' id='tag' className={styles['input']} />
+      </div>
+
       <textarea
         name='post'
         id=''
         cols='30'
         rows='10'
-        className={`${styles['input']} input ${formValidState.post ? '' : styles['invalid']}`}
+        className={cn(styles['input'], {
+          [styles['invalid']]: !formValidState.post,
+        })}
       ></textarea>
       <Button text='Сохранить' />
     </form>
