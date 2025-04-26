@@ -1,6 +1,6 @@
 import styles from './JournalForm.module.scss';
 import Button from '../Button/Button';
-import { useEffect, useReducer, useState } from 'react';
+import { useEffect, useReducer } from 'react';
 import cn from 'classname';
 import { INITIAL_STATE, formReducer } from './JournalForm.state';
 
@@ -25,7 +25,7 @@ function JournalForm({ onSubmit }) {
       onSubmit(values);
       dispatchForm({ type: 'CLEAR' });
     }
-  }, [isFormReadyToSubmit]);
+  }, [isFormReadyToSubmit, values, onSubmit]);
 
   const onChange = e => {
     dispatchForm({
