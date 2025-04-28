@@ -1,5 +1,10 @@
+import { UserContext } from '../../context/user.context';
+import { useContext } from 'react';
 
 function SelectUser({ changedUser }) {
+  const { userId } = useContext(UserContext);
+
+
   const changeUser = e => {
     changedUser(e.target.value);
     e.targer.value;
