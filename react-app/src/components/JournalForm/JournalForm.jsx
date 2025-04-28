@@ -1,17 +1,37 @@
 import styles from './JournalForm.module.scss';
 import Button from '../Button/Button';
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 import cn from 'classname';
 import { INITIAL_STATE, formReducer } from './JournalForm.state';
 
 function JournalForm({ onSubmit }) {
   const [formState, dispatchForm] = useReducer(formReducer, INITIAL_STATE);
   const { isValid, isFormReadyToSubmit, values } = formState;
+  const titleRef = useRef();
+  const dateRef = useRef();
+  const postRef = useRef();
+
+  const focusError = isValid => {
+    switch(true) {
+      case !isValid.title:
+        titleRef.current.focus();
+        break;
+      case !isValid.date:
+        dateRef.current.focus();
+        break;
+      case !isValid.post:
+        postRef.current.focus();
+        break;
+      default:
+        break;
+    }
+  };
 
   useEffect(() => {
     let timerId;
     if (!isValid.date || !isValid.post || !isValid.title) {
-      setTimeout(() => {
+      focusError(isValid);
+      timerId = setTimeout(() => {
         dispatchForm({ type: 'RESET_VALIDITY' });
       }, 2000);
     }
@@ -36,7 +56,7 @@ function JournalForm({ onSubmit }) {
 
   const addJournalItem = e => {
     e.preventDefault();
-    dispatchForm({ type: 'SUBMIT'});
+    dispatchForm({ type: 'SUBMIT' });
   };
 
   return (
@@ -45,6 +65,7 @@ function JournalForm({ onSubmit }) {
         <input
           type='text'
           name='title'
+          ref={titleRef}
           onChange={onChange}
           value={values.title}
           className={cn(styles['input-title'], {
@@ -61,6 +82,7 @@ function JournalForm({ onSubmit }) {
           type='date'
           name='date'
           id='date'
+          ref={dateRef}
           value={values.date}
           onChange={onChange}
           className={cn(styles['input'], {
@@ -88,6 +110,7 @@ function JournalForm({ onSubmit }) {
         id=''
         cols='30'
         rows='10'
+        ref={postRef}
         value={values.post}
         onChange={onChange}
         className={cn(styles['input'], {
