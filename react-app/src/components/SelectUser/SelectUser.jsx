@@ -1,18 +1,18 @@
 import { UserContext } from '../../context/user.context';
 import { useContext } from 'react';
 
-function SelectUser({ changedUser }) {
-  const { userId } = useContext(UserContext);
+function SelectUser() {
+  const { userId, setUserId } = useContext(UserContext);
 
 
   const changeUser = e => {
-    changedUser(e.target.value);
+    setUserId(Number(e.target.value));
     e.targer.value;
   };
 
   return (
     <>
-      <select name='user' id='user' onChange={changeUser}>
+      <select name='user' value={userId} id='user' onChange={changeUser}>
         <option value='1'>Антон</option>
         <option value='2'>Вася</option>
       </select>
